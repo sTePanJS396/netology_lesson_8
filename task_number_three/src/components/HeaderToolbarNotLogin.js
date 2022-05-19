@@ -11,13 +11,20 @@ const HeaderToolbarNotLogin = () => {
         setField(prev => ({...prev, [event.target.name]: event.target.value}))
     };
 
-    function handleClick() {
+    async function handleClick() {
         try {
-            fetch('http://localhost:7070/auth', {
+            await fetch('http://localhost:7070/auth', {
                 method: 'POST',
                 headers: {'Content-Type': 'application/json'}, 
                 body: JSON.stringify({login: field.user, password: field.password})
-            }).then(res => res.json()).then(res => {
+            }).then(res => {
+                    if (res.status === 401) {
+                        alert('Произошла ошибка!')
+                        window.localStorage.clear();
+                    } else {
+                        return res.json()
+                    }
+            }).then(res => {
                 if (!res.message) {
                     window.localStorage.setItem('token', res.token);
                     context.setIsToken(true);

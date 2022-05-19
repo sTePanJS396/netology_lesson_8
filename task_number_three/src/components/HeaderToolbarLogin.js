@@ -5,10 +5,17 @@ const HeaderToolbarLogin = () => {
   const [user, setUset] = React.useState({});
   
   async function fetchingData() {
-    fetch('http://localhost:7070/private/me', {
+    await fetch('http://localhost:7070/private/me', {
       method: 'GET',
       headers: {'Authorization': `Bearer ${window.localStorage.getItem('token')}`},
-    }).then(res => res.json()).then(res => setUset(res))
+    }).then(res => {
+      if (res.status === 401) {
+        alert('Произошла ошибка!')
+        window.localStorage.clear();
+      } else {
+        return res.json()
+      }
+    }).then(res => setUset(res))
   }
 
   React.useEffect(() => {

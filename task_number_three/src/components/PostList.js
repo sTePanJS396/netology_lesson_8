@@ -6,10 +6,17 @@ const PostList = () => {
   const [post, setPost] = React.useState([]);
 
   async function fetchingData() {
-    fetch('http://localhost:7070/private/news', {
+    await fetch('http://localhost:7070/private/news', {
       method: 'GET',
       headers: {'Authorization': `Bearer ${window.localStorage.getItem('token')}`},
-    }).then(res => res.json()).then(res => setPost(res))
+    }).then(res => {
+      if (res.status === 401) {
+        alert('Произошла ошибка!')
+        window.localStorage.clear();
+      } else {
+        return res.json()
+      }
+    }).then(res => setPost(res))
   }
   
   React.useEffect(() => {

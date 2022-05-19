@@ -6,25 +6,26 @@ export default function useJsonFetch(url = '', opts = {}) {
     const [error, setError] = React.useState('');
 
     if (typeof url !== 'string' || typeof opts !== 'object') {
-        setError('Parameters ("url" = string and "opts" = object) were expected, but completely different ones were received')
-        throw new Error('Parameters ("url" = string and "opts" = object) were expected, but completely different ones were received')
-    }
+        setError('Parameters ("url" = string and "opts" = object) were expected, but completely different ones were received');
+        throw new Error('Parameters ("url" = string and "opts" = object) were expected, but completely different ones were received');
+    };
 
     async function fetching() {
         const req = await fetch(url, opts)
         if (!req.ok) {
-            setError(req.status || req.statusText)
+            setError(req.status || req.statusText);
+            setLoading(false);
         } else {
             const res = await req.json();
-            setData(res)
+            setData(res);
             setLoading(false)
         }
     }
 
     React.useEffect(() => {
         setLoading(true);
-        fetching()
-    }, [])
+        fetching();
+    }, []);
 
     return [data, loading, error]
 }

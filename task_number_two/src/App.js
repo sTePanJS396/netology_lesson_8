@@ -3,7 +3,7 @@ import './App.css';
 import useJsonFetch from './hook/useJsonFetch';
 
 function App() {
-  const [data, error, loading] = useJsonFetch('http://localhost:7070/.......', {})
+  const [data, error, loading] = useJsonFetch('http://localhost:7070/.........', {})
                                                                     // ↑ просто подставьте вот сюда одно из трех необходимых:
                                                                     // 1. data - успешное получение данных
                                                                     // 2. error - получение 500 ошибки
